@@ -75,10 +75,12 @@ Borders are real borders, never inset shadows.
 
 - Pills always have a 1px border, 20px tall (24px or 28px only next to items of that size), `--q-radius-full`, 12px text.
 - Neutral pill (tags, roles): `--q-surface-subtle` fill, `--q-border` border, `--q-text-secondary` text.
+- Membership pills (a person's status in a team): active uses the neutral pill; invited uses a 1px dashed `--q-border-strong` border, no fill, `--q-text-secondary` text; deactivated uses a 1px `--q-border-subtle` border, no fill, `--q-text-disabled` text. Same size as other pills. Hover shows a tooltip with the team, status and every role.
 - Coloured pill (status, document type, artifact): border in the pill's own text or icon colour.
 - Overflow: show at most 2 pills, then "+N". The "+N" looks exactly like the pills beside it; hover and open state darken the fill to `--q-surface-strong`. Clicking opens a list panel: header with the count and context, one item per 40px row, `--q-radius-xl`, `--q-shadow-menu`, click outside to close.
 - Count badges: 20px tall, min 20px wide, 11px bold, `--q-radius-full`, 1px border. Attention (pending, active filters): `--q-brand` fill and border, `--q-text-on-brand` text. Total (plain counts): `--q-surface-subtle` fill, `--q-border` border, `--q-text-secondary` text. A badge sitting on an icon may be 16px.
 - Segmented controls: `--q-surface-subtle` track with 2px padding and a 1px `--q-border` border, `--q-radius-md`. Options are 28px, `--q-radius-md`; selected uses `--q-toggle-knob` fill and `--q-text-primary`, others `--q-text-secondary`.
+- Checkboxes: 16px box, 1px border, `--q-radius-sm`. Off: `--q-surface-base` fill, `--q-border-strong` border. On: `--q-brand` fill and border with a 12px `checkmark` in `--q-text-on-brand`. Partly selected (select-all with some rows ticked): same as on, with a 12px `subtract` instead. Row with a label: 40px tall, 12px between box and label.
 
 ## Layout
 
@@ -86,6 +88,30 @@ Borders are real borders, never inset shadows.
 - Dashboards fit the window and never scroll as a page; their cards split the height and scroll inside.
 - Every card has 16px between its title and the first element below it.
 - Tables: header 48px, 14px medium weight, `--q-text-secondary`; rows 16px side padding with 16px between columns; all columns left-aligned.
+
+## Tables with selection and bulk actions
+
+- The first column is a checkbox; the header has a select-all checkbox (partly selected shows the dash).
+- Selected rows use `--q-brand-tint` (`--q-brand-tint-hover` on hover).
+- While anything is selected, the table's header row turns into the action bar, with the same height and the header's top corners rounded (`--q-radius-md`): select-all checkbox, "N selected", Clear, then the actions on the right, primary last. Destructive actions use the secondary button with `--q-text-error` text.
+- While anything is selected, per-row actions are hidden. Inline inputs that a bulk action uses (e.g. a role dropdown) stay.
+- Bulk actions show a toast with the count ("3 requests accepted") and clear the selection.
+
+## Budget states
+
+- Shown on the Usage cycle widget at the right of the page header: "$3,400 of $5,000 spent", a bar, the percentage at the end of the bar, and a "Change limit" link.
+- Healthy (under 80%): bar fill `--q-brand`.
+- Nearing limit (80% and over): bar fill `--q-support-warning`, and an alert strip appears above the cards.
+- Almost at or at the limit (95% and over): bar fill `--q-text-error`; at 100% the alert strip says generation is paused.
+- Alert strip: full width above the cards, `--q-surface-subtle` fill, `--q-radius-md`, 12px 16px padding, a `warning--filled` icon in `--q-support-warning` (nearing) or `--q-text-error` (limit), the message, and a "Change limit" secondary button.
+
+## Chart animation
+
+- Charts animate every time their page opens, with a gentle ease-out (`cubic-bezier(0.22,1,0.36,1)`).
+- Progress and usage bars draw in from empty to the current value (about 1.6s).
+- Distributions (donuts, stacked bars) start as equal parts and settle into their real proportions (about 1.8s). Legends are in place from the start.
+- Several charts on one page start 150ms apart. Value changes after load glide over 0.9s.
+- Anyone with reduced motion turned on sees the final state with no animation.
 
 ## Dates and times
 
